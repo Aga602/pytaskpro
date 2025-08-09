@@ -2,6 +2,7 @@ import json
 
 from models import Task
 from storage import Jsonio
+from typing import Optional
 
 PATH = "../data/tasks.json"
 
@@ -20,21 +21,22 @@ class TaskManager:
             self.list_of_tasks.append(
                 tasks
             )
-            
+
     def save_load_tasks(self, path = PATH):
-        # Find all the tasks in the json file.
-        
+        # Find all the tasks in the json file.   
         for i in range(0, len(self.list_of_tasks)):
             try:
                 existing_data = Jsonio(path).read_json()
                 print("EXISTING DATA: ", existing_data)
             except (FileNotFoundError, json.JSONDecodeError):
                 existing_data = [] # Initialize as an empty list if no data exists
-
         # Find if the current data is in the file.        
-            print("Current data is: ", self.list_of_tasks[i].title.lower().replace(" ","_"))
-            if any(self.list_of_tasks[i].title.lower().replace(" ","_") in dic for dic in existing_data):
-                print("key already exists")
+            print("Current data is: "
+                  ,self.list_of_tasks[i].title.lower().replace(" ","_"))
+            if any(
+                self.list_of_tasks[i].title.lower().replace(" ","_") in dic 
+                for dic in existing_data
+                ):
                 continue
             else:
                 # If data is not present then add them to the file    
@@ -54,15 +56,20 @@ class TaskManager:
                 except:
                     print("File not found")
 
-A = TaskManager()
-A.add_task(
-    Task(
-        title="Do Homework",
-        description="Doing homework is good for you acadamics and decipline",
-        status="repeat"
-        
-        
-    )
-)
-
-A.save_load_tasks()
+    def list_tasks(self, type: Optional[str], path = PATH ):
+        existing_data = Jsonio(path).read_json()
+        tasks = [ 
+                 Task(
+                     title=v["title"],
+                     description=v["description"],
+                     status=v["status"]
+                    ) 
+                 for x in existing_data 
+                 for _,v in x.items()
+                ]
+        if type != None:
+            print("List of Tasks with status ", type)
+            print([task.title for task in tasks if task.status == type.lower()])
+        else:
+            print("List of ALL Tasks: ")
+            print([task.title for task in tasks])
