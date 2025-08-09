@@ -59,7 +59,7 @@ A.add_task(
     Task(
         title="Do Homework",
         description="Doing homework is good for you acadamics and decipline",
-        status="Everyday"
+        status="repeat"
         
         
     )
