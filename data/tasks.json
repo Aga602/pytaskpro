@@ -1,23 +1,9 @@
 [
     {
-        "wake_up_early": {
-            "title": "Wake up early",
-            "description": "It is importaint to wake up early",
-            "status": "repeat"
-        }
-    },
-    {
-        "eat_brakfast": {
-            "title": "Eat Brakfast",
-            "description": "Eat first meal of the day",
-            "status": "repeat"
-        }
-    },
-    {
-        "sleep_on_time": {
-            "title": "Sleep on time",
-            "description": "It is importaint to sleep on time",
-            "status": "repeat"
+        "do_homework": {
+            "title": "Do Homework",
+            "description": "Doing homework is good for you acadamics and decipline",
+            "status": "Everyday"
         }
     }
 ]
