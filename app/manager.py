@@ -8,7 +8,6 @@ from core.exceptions import JSONFileNotFound
 PATH = "../data/tasks.json"
 
 class TaskManager:
-    count:int = 0
 
     def __init__(self):
         self.list_of_tasks = []
