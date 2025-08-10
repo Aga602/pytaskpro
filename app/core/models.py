@@ -5,7 +5,7 @@ from typing import Literal
 class Task:
     title: str
     description: str
-    status: Literal["to-do", "done", "repeat"]
+    status: Literal["to-do", "done", "repeat"] = "to-do"
     
     def __post_init__(self):
         allowed_status = ["to-do", "done", "repeat"]
