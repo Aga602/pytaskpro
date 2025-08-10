@@ -1,8 +1,9 @@
 import json
 
-from models import Task
+from app.core.models import Task
 from storage import Jsonio
 from typing import Optional
+from core.exceptions import JSONFileNotFound
 
 PATH = "../data/tasks.json"
 
@@ -54,8 +55,8 @@ class TaskManager:
                 try:
                     Jsonio(path).write_json(data=existing_data)
                 except:
-                    print("File not found")
-
+                    JSONFileNotFound(path=path)
+                    
     def list_tasks(self, type: Optional[str], path = PATH ):
         existing_data = Jsonio(path).read_json()
         tasks = [ 
