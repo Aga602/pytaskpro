@@ -1,4 +1,4 @@
-class JSONFileNotFound(BaseException):
+class JSONFileNotFound(FileNotFoundError):
     def __init__(self, *args,path):
         super().__init__(*args)
         self.path = path
