@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Literal
+from enum import Enum
 
 @dataclass
 class Task:
@@ -11,3 +12,9 @@ class Task:
         allowed_status = ["to-do", "done", "repeat"]
         if self.status not in allowed_status:
             raise ValueError("The provided status is not valid.")
+
+class TaskFunctions(Enum):
+    hello = 'h'
+    add_task = 'at'
+    remove_task = 'rt'
+    change_status = 'cs'
