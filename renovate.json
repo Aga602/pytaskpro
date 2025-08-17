@@ -8,7 +8,7 @@
     {
       "description": "Saturday at 9am",
       "timezone": "Australia/Sydney",
-      "schedule": ["00 1 * * 6"]
+      "schedule": ["* 1 * * 6"]
 
     }
   ]
