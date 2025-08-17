@@ -4,16 +4,15 @@ class Jsonio:
     def __init__(self, path):
         self.path = path 
     
-    def check_file_exists(self, mode = "r"):
-        try:
-            open(self.path,mode)
-        except:
-            raise(JSONFileNotFound(path=self.path))
     def read_json(self):
-        with self.check_file_exists() as readfile:
+        print("PATH: ",self.path) 
+        with open(self.path,"r") as readfile:
+            print(
+                "file opened successfully"
+            )
             return json.load(readfile)
     
     def write_json(self, data):
-        with self.check_file_exists(mode="w") as writefile:
-            # all value are intended to 4 later this can be a parameter as well
+        print("Trying to add list to json file")
+        with open(self.path,"w") as writefile:
             json.dump(data, writefile, indent=4)

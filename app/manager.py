@@ -1,18 +1,25 @@
 import json
 
-from app.core.models import Task
+from core.models import Task
 from storage import Jsonio
 from typing import Optional
 from core.exceptions import JSONFileNotFound
+import os
 
-PATH = "../data/tasks.json"
-
+PATH = os.path.join(os.path.curdir ,"data", "tasks.json")
+try:
+    if os.path.exists(PATH):
+        print("Path exists")
+except:
+    raise JSONFileNotFound(path=PATH)
+    
 class TaskManager:
 
     def __init__(self):
         self.list_of_tasks = []
 
     def add_task(self, tasks: list[Task] | Task):
+        print(type(tasks))
         if isinstance(tasks, list):
             self.list_of_tasks.extend(
                     tasks
@@ -22,15 +29,17 @@ class TaskManager:
                 tasks
             )
 
-    def save_load_tasks(self, path = PATH):
-        # Find all the tasks in the json file.   
+    def save_load_tasks(self, task: list[Task] | Task ,path: str = PATH):
+        # Find all the tasks in the json file.
+        self.add_task(tasks=task)
+        print(self.list_of_tasks)
         for i in range(0, len(self.list_of_tasks)):
             try:
                 existing_data = Jsonio(path).read_json()
                 print("EXISTING DATA: ", existing_data)
             except (FileNotFoundError, json.JSONDecodeError):
                 existing_data = [] # Initialize as an empty list if no data exists
-        # Find if the current data is in the file.        
+        # Find if the current data is in the file.   
             print("Current data is: "
                   ,self.list_of_tasks[i].title.lower().replace(" ","_"))
             if any(
@@ -49,8 +58,8 @@ class TaskManager:
                     }
                 print("DATA: ",data)
                 existing_data.append(data)
-
                 print(existing_data)
+                
                 try:
                     Jsonio(path).write_json(data=existing_data)
                 except:
