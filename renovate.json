@@ -3,13 +3,6 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
-  ],
-  "packageRules": [
-    {
-      "description": "Saturday at 9am",
-      "timezone": "Australia/Sydney",
-      "schedule": ["* 1 * * 6"]
-
-    }
   ]
+
 }
