@@ -35,7 +35,7 @@ class TaskManager:
         print(self.list_of_tasks)
         for i in range(0, len(self.list_of_tasks)):
             try:
-                existing_data = Jsonio(path).read_json()
+                existing_data:list = Jsonio(path).read_json()
                 print("EXISTING DATA: ", existing_data)
             except (FileNotFoundError, json.JSONDecodeError):
                 existing_data = [] # Initialize as an empty list if no data exists
@@ -82,3 +82,19 @@ class TaskManager:
         else:
             print("List of ALL Tasks: ")
             print([task.title for task in tasks])
+
+    def remove_task(self, title:str, path = PATH):
+        # see if title exists
+        try:
+                existing_data:list = Jsonio(path).read_json()
+                print("Existing data: ", existing_data)
+                if any(title.replace(" ","_").lower().strip() in dic for dic in existing_data):
+                    print("title is present")
+                    remove = [dic for dic in existing_data if title.replace(" ","_").lower().strip() in dic]
+                    existing_data = [x for x in existing_data if x not in remove]
+                    print(existing_data)   
+                    Jsonio(path).write_json(data=existing_data)
+                else:
+                    print("Title is not found")
+        except Exception as e:
+            print(f"The json file is empty: {e}")
