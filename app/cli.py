@@ -37,6 +37,13 @@ class CLI:
         
         manager = TaskManager()
         manager.save_load_tasks(task=inputTask)
+    
+    def remove_task(self):
+        """This removes the task if exists in db"""
+        print("Add title to remove")
+        title = typer.prompt("Prompt",confirmation_prompt=True)
+        manager = TaskManager()
+        manager.remove_task(title=title)
 
     def callable(self, option: TaskFunctions):
         option = TaskFunctions(option).name
@@ -45,7 +52,8 @@ class CLI:
                 func = self.hello
             case "add_task":
                 func = self.add_task
-            case "remove_task": ...
+            case "remove_task": 
+                func = self.remove_task
             case "change_status": ...
             case _: ...
         typer.run(func)
@@ -53,6 +61,6 @@ class CLI:
 if __name__ == "__main__":
     try:
         cli = CLI()
-        cli.callable("at")
+        cli.callable("rt")
     except Exception as e:
         print("Exception: ",e)
