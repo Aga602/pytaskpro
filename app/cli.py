@@ -1,8 +1,7 @@
 import typer
 from dataclasses import dataclass
-from core.models import Task
+from models import Task, TaskFunctions
 from rich import print
-from core.models import TaskFunctions 
 from manager import TaskManager
 
 app = typer.Typer()

@@ -1,9 +1,9 @@
 import json
 
-from core.models import Task
+from models import Task
 from storage import Jsonio
 from typing import Optional
-from core.exceptions import JSONFileNotFound
+from app.exceptions import JSONFileNotFound
 import os
 
 PATH = os.path.join(os.path.curdir ,"data", "tasks.json")
