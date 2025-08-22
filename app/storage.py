@@ -1,5 +1,5 @@
 import json
-from core.exceptions import JSONFileNotFound
+from exceptions import JSONFileNotFound
 class Jsonio:
     def __init__(self, path):
         self.path = path 
