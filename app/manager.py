@@ -3,7 +3,8 @@ import json
 from models import Task
 from storage import Jsonio
 from typing import Optional
-from app.exceptions import JSONFileNotFound
+from exceptions import JSONFileNotFound
+from app.decorators import log_action
 import os
 
 PATH = os.path.join(os.path.curdir ,"data", "tasks.json")
@@ -28,7 +29,8 @@ class TaskManager:
             self.list_of_tasks.append(
                 tasks
             )
-
+    
+    @log_action
     def save_load_tasks(self, task: list[Task] | Task ,path: str = PATH):
         # Find all the tasks in the json file.
         self.add_task(tasks=task)
@@ -65,6 +67,7 @@ class TaskManager:
                 except:
                     JSONFileNotFound(path=path)
                     
+    @log_action
     def list_tasks(self, type: Optional[str], path = PATH ):
         existing_data = Jsonio(path).read_json()
         tasks = [ 
@@ -83,6 +86,7 @@ class TaskManager:
             print("List of ALL Tasks: ")
             print([task.title for task in tasks])
 
+    @log_action
     def remove_task(self, title:str, path = PATH):
         # see if title exists
         try:
