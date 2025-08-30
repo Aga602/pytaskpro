@@ -13,8 +13,10 @@ class CLI:
         print(
             f"""
                 [bold green]Hi {name.upper()} [bold green]
-                [bold green]I am a Cli tool to maintaining your everyday Task[/bold green] \n
-                Please add the task name, descriprion and also the status of task \n
+                [bold green]I am a Cli tool to maintaining your
+                everyday Task[/bold green] \n
+                Please add the task name, descriprion and also
+                the status of task \n
                 The accepted statuses are as follows \n
                 1. [red]to-do[/red] \n
                 2. [blue]done[/blue] \n
@@ -56,11 +58,3 @@ class CLI:
             case _:
                 ...
         typer.run(func)
-
-
-if __name__ == "__main__":
-    try:
-        cli = CLI()
-        cli.callable("rt")
-    except Exception as e:
-        print("Exception: ", e)

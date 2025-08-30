@@ -1,6 +1,3 @@
-from collections.abc import Iterable
-
-
 class JSONFileNotFound(FileNotFoundError):
     def __init__(self, *args, path: str):
         super().__init__(*args)
