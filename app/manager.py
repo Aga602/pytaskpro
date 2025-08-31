@@ -21,19 +21,33 @@ class TaskManager:
     def __init__(self):
         self.list_of_tasks = []
 
-    def add_task(self, tasks: list[Task] | Task):
+    def _add_task(self, tasks: list[Task] | Task):
+        """
+        Add task Initialize the task before adding them.
+        """
         print(type(tasks))
         if isinstance(tasks, list):
             self.list_of_tasks.extend(tasks)
         else:
             self.list_of_tasks.append(tasks)
 
+    def __len__(self):
+        """
+        Returns the number of task being added
+        """
+        return len(self.list_of_tasks)
+
+    def __iter__(self):
+        return iter(self.list_of_tasks)
+
     @log_action
     def save_load_tasks(self, task: list[Task] | Task, path: str = PATH):
-        # Find all the tasks in the json file.
-        self.add_task(tasks=task)
+        """
+        saves the task into the json file
+        """
+        self._add_task(tasks=task)
         print(self.list_of_tasks)
-        for i in range(0, len(self.list_of_tasks)):
+        for i in range(0, self.__len__()):
             try:
                 existing_data: list = Jsonio(path).read_json()
                 print("EXISTING DATA: ", existing_data)
@@ -67,33 +81,43 @@ class TaskManager:
 
                 try:
                     Jsonio(path).write_json(data=existing_data)
-                except:
+                except Exception as e:
+                    print("the Exception:", e)
                     JSONFileNotFound(path=path)
 
     @log_action
     def list_tasks(self, type: Optional[str], path=PATH):
+        """
+        Lists all the tasks in the Db or return sepecificaly the task with
+        defined status
+        """
         existing_data = Jsonio(path).read_json()
         tasks = [
-            Task(title=v["title"], description=v["description"],
-                 status=v["status"])
+            Task.from_dict(x)
             for x in existing_data
             for _, v in x.items()
         ]
-        if type != None:
+        if type is not None:
+            # looks for all task with the provided status
             print("List of Tasks with status ", type)
-            print([task.title for task in tasks if task.status == type.lower()])
+            print(
+                [task.title for task in tasks if task.status == type.lower()]
+            )
         else:
             print("List of ALL Tasks: ")
             print([task.title for task in tasks])
 
     @log_action
     def remove_task(self, title: str, path=PATH):
-        # see if title exists
+        """
+        see if title exists and then remove it from the json file
+        """
         try:
             existing_data: list = Jsonio(path).read_json()
             print("Existing data: ", existing_data)
             if any(
-                title.replace(" ", "_").lower().strip() in dic for dic in existing_data
+                title.replace(" ", "_").lower().strip() in
+                dic for dic in existing_data
             ):
                 print("title is present")
                 remove = [
