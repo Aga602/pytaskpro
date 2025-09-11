@@ -1,7 +1,7 @@
 import json
 
 from models import Task
-from storage import Jsonio
+from storage import read_file, write_file
 from typing import Optional
 from exceptions import JSONFileNotFound
 from app.decorators import log_action
@@ -49,7 +49,7 @@ class TaskManager:
         print(self.list_of_tasks)
         for i in range(0, self.__len__()):
             try:
-                existing_data: list = Jsonio(path).read_json()
+                existing_data: list = read_file(PATH)
                 print("EXISTING DATA: ", existing_data)
             except (FileNotFoundError, json.JSONDecodeError):
                 existing_data = []  # Initialize as an empty list if no data
@@ -80,7 +80,7 @@ class TaskManager:
                 print(existing_data)
 
                 try:
-                    Jsonio(path).write_json(data=existing_data)
+                    write_file(path, data=existing_data)
                 except Exception as e:
                     print("the Exception:", e)
                     JSONFileNotFound(path=path)
@@ -91,7 +91,7 @@ class TaskManager:
         Lists all the tasks in the Db or return sepecificaly the task with
         defined status
         """
-        existing_data = Jsonio(path).read_json()
+        existing_data = read_file(path)
         tasks = [
             Task.from_dict(x)
             for x in existing_data
@@ -113,7 +113,7 @@ class TaskManager:
         see if title exists and then remove it from the json file
         """
         try:
-            existing_data: list = Jsonio(path).read_json()
+            existing_data: list = read_file(path)
             print("Existing data: ", existing_data)
             if any(
                 title.replace(" ", "_").lower().strip() in
@@ -127,7 +127,7 @@ class TaskManager:
                 ]
                 existing_data = [x for x in existing_data if x not in remove]
                 print(existing_data)
-                Jsonio(path).write_json(data=existing_data)
+                write_file(path, data=existing_data)
             else:
                 print("Title is not found")
         except Exception as e:
